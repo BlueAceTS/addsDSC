@@ -5,6 +5,7 @@ configuration PrepareADBDC
         [Parameter(Mandatory)]
         [String]$DNSServer,
 
+        [Int]$DiskNumber=2,
         [Int]$RetryCount=20,
         [Int]$RetryIntervalSec=30
     )
@@ -22,14 +23,14 @@ configuration PrepareADBDC
 
         xWaitforDisk Disk2
         {
-                DiskNumber = 2
+                DiskNumber = $DiskNumber
                 RetryIntervalSec =$RetryIntervalSec
                 RetryCount = $RetryCount
         }
 
         xDisk ADDataDisk
         {
-            DiskNumber = 2
+            DiskNumber = $DiskNumber
             DriveLetter = "F"
             DependsOn = "[xWaitForDisk]Disk2"
         }
