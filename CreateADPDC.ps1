@@ -10,9 +10,11 @@ configuration CreateADPDC
 
         [Parameter(Mandatory)]
         [System.Management.Automation.PSCredential]$Admincreds,
-
+	
+	[Int]$DiskNumber=2,
         [Int]$RetryCount=20,
         [Int]$RetryIntervalSec=30
+	
     )
 
     Import-DscResource -ModuleName xActiveDirectory, xStorage, xNetworking, PSDesiredStateConfiguration, xPendingReboot
@@ -61,13 +63,13 @@ configuration CreateADPDC
 
         xWaitforDisk Disk2
         {
-            DiskNumber = 2
+            DiskNumber = $DiskNumber
             RetryIntervalSec =$RetryIntervalSec
             RetryCount = $RetryCount
         }
 
         xDisk ADDataDisk {
-            DiskNumber = 2
+            DiskNumber = $DiskNumber
             DriveLetter = "F"
             DependsOn = "[xWaitForDisk]Disk2"
         }
